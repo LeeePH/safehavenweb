@@ -137,12 +137,68 @@ const config = {
 
   // 💌 Love Letter Page
   loveLetterMessage: "Hi my lovey! Before ka mag next page, gusto ko lang sabihin sa'yo na always akong nagpapasalamat na nakilala kita <3 Mahal na mahal po kita ng sobra sobra. Love you so much my lovey <3",
+  // 💍 Proposal Page (Triggered by searching "143")
+  proposalWelcome: "Welcome, my love", // Welcome title
+  proposalWelcomeMessage: "You've found something special...", // Welcome message
+  proposalStory1Title: "Our LDR Journey", // First story part title
+  proposalStory1Content: "Miles apart, but hearts connected. Every message, every call, every moment we share bridges the distance between us. Our love knows no boundaries.", // First story part content
+  proposalStory2Title: "Growing Together", // Second story part title
+  proposalStory2Content: "Through every challenge and every joy, we've grown stronger. Your presence in my life has been the greatest gift, and I'm grateful for every day we get to share.", // Second story part content
+  proposalStory3Title: "The First 'I Love You'", // Third story part title
+  proposalStory3Content: "That moment when we first said 'I love you' changed everything. It wasn't just words—it was a promise, a commitment, the beginning of forever.", // Third story part content
+  nextButtonText: "Next", // Text for the Next button in story parts
+  
+  // 📅 2025 Recap Section
+  proposalRecap2025Title: "Our 2025 Journey", // Title for the 2025 recap section
+  proposalRecap2025Items: [
+    { title: "January 2025", description: "We started talking and getting to know each other better. Every conversation felt special." },
+    { title: "February 2025", description: "Our bond grew stronger. We shared more about ourselves and our dreams." },
+    { title: "March 2025", description: "We celebrated small moments together, even from a distance." },
+    // Add more items as needed
+  ],
+  
+  // 💌 Promises Section
+  proposalPromisesTitle: "My Promises to You", // Title for the promises section
+  proposalPromises: [
+    { title: "Promise 1", message: "I promise to always be there for you, no matter the distance." },
+    { title: "Promise 2", message: "I promise to support your dreams and be your biggest cheerleader." },
+    { title: "Promise 3", message: "I promise to love you unconditionally, through good times and bad." },
+    // Add more promises as needed
+  ],
+  
+  // 📋 Plans Section (2026)
+  proposalPlans2026Title: "Our Plans for 2026", // Title for the plans section
+  proposalPlans2026: [
+    { title: "Plan 1", message: "I plan to visit you and spend quality time together in person." },
+    { title: "Plan 2", message: "I plan to create more beautiful memories and celebrate special occasions together." },
+    { title: "Plan 3", message: "I plan to grow our relationship and build our future together." },
+    // Add more plans as needed
+  ],
+  
+  // ❓ Proposal Question
+  proposalQuestion: "Will you be my girlfriend?", // The proposal question
+  proposalYesButton: "Yes", // Text for the Yes button
+  proposalNoButton: "No", // Initial text for the No button
+  proposalNoButtonTexts: ["No", "Are you sure?", "Really?", "Please?", "Last chance!"], // Array of texts for No button when clicked
+  
+  // 🎉 Official State
+  proposalOfficialTitle: "OFFICIALLY OURS! 💕", // Title for the official state
+  proposalOfficialMessage: "We're officially together, and I couldn't be happier!", // Message for the official state
+  proposalPromiseTitle: "My Promise to You", // Title for the promise section
+  proposalPromise: "I promise to love you through every distance, support you in every dream, and cherish every moment we share. You are my forever, and I am yours. Together, we'll create a lifetime of beautiful memories. I love you more than words can express. 💖", // The heartfelt promise
+  
+  // 📜 Certificate Configuration
+  certificateTitle: "OFFICIAL CERTIFICATE", // Certificate main title
+  certificateSubtitle: "of Labeled Relationship", // Certificate subtitle
+  certificatePartner1Name: "Lee Bernard A. Nillar", // First partner's name
+  certificatePartner2Name: "Arianne S. Lonzaga", // Second partner's name
+  certificateDate: "", // Leave empty for auto date, or specify custom date string
 
   // 🎇 Closing Page
   closingMessage: "Hi ulit my love! Since eto na yung closing message ko for this website HAHAHAH unang una happy december to us! mag papasko't new year na HAHAHHA! and gusto ko lang mag sorry ulit love sa last na tampuhan natin, yung natulugan kita sa time na need na need mo'ko. I'm sincerly apologize po since gawa din po talaga ng pagod love, 'di ko gusto na matulugan ka nun that time, balak ko lang talaga mag nap nun eh. :(( anyways I know love na medyo magaan na loob mo sa'kin and it's matter of time nalang na patawarin mo na'ko fully, so 'di na'ko maglalagay ng yes or no button as usual kung pinapatawad mo na'ko. I'll prove it all by my actions nalang. that's all my lovey! iloveyousomuch!!)) ", // Closing message displayed
 
   /* 
-  ████████████████████████████████████████
+  ████████████████████████████████████████SSSS
   ⚠️ ADVANCED SETTINGS (DO NOT TOUCH UNLESS YOU KNOW WHAT YOU'RE DOING)
   ████████████████████████████████████████
   */

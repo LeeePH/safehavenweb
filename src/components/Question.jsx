@@ -31,6 +31,12 @@ function Question() {
     e.preventDefault();
     const lowerCaseQuery = searchQuery.toLowerCase().trim();
     
+    // Check for the special proposal code "143"
+    if (lowerCaseQuery === "143" || lowerCaseQuery.includes("143")) {
+      navigate('/proposal');
+      return;
+    }
+    
     // Check if it's the special query about Lee falling for Arianne
     if (lowerCaseQuery === "what makes lee fall for arianne?" || lowerCaseQuery.includes("what makes lee fall for arianne")) {
       setShowSearchResults(true);

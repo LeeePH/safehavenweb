@@ -10,6 +10,8 @@ import Message from './Message';
 import Carousel from './Carousel';
 import LoveStory from './LoveStory';
 import BeautifulGirl from './BeautifulGirl';
+import Proposal from './Proposal';
+
 
 export {
   Passcode,
@@ -23,5 +25,6 @@ export {
   Carousel,
   Message,
   LoveStory,
-  BeautifulGirl
+  BeautifulGirl,
+  Proposal,
 }

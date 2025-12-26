@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {Closing, Letter,Passcode,Question,Recap,Timer,Message,Music,Videos,LoveStory,BeautifulGirl} from './components'
+import {Closing, Letter,Passcode,Question,Recap,Timer,Message,Music,Videos,LoveStory,BeautifulGirl,Proposal} from './components'
 import './index.css'
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
         <Route path="/recap/pictures" element={<Videos />} />
         <Route path="/love-story" element={<LoveStory />} />
         <Route path="/most-beautiful" element={<BeautifulGirl />} />
+        <Route path="/proposal" element={<Proposal />} />
         <Route path="/letter" element={<Letter />} />
         <Route path="/closing" element={<Closing />} />
       </Routes>

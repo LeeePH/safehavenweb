@@ -84,28 +84,39 @@ overflow-x: hidden;
   width: 240px;
   height: 120px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   color: var(--base);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .letter .body .close {
   position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 20px;
+  right: 8px;
+  top: 8px;
+  font-size: 24px;
   font-family: 'Manjari', sans-serif;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  z-index: 50;
+  line-height: 1;
+  font-weight: bold;
 }
 
 .letter .body .message {
-  font-size: 16px;
-  font-weight: 900;
-  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  width: 100%;
+  padding-right: 8px;
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: 1.6;
 }
 
 .envelope {
@@ -146,4 +157,18 @@ overflow-x: hidden;
     linear-gradient(150deg, var(--base) 50%, var(--shadow) 50%, var(--base-dark) 53%) 0px 90px / 151px 90px no-repeat,
     /* top-right */
     linear-gradient(148.7deg, transparent 50%, var(--shadow) 50%, var(--base) 51%) 150px 0px / 150px 90px no-repeat;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  border-top: 115px solid #7873A7;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  box-sizing: border-box;
+  z-index: 30;
+  transform-origin: top;
+  pointer-events: none;
 }
