@@ -1,17 +1,341 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, ArrowRight, Download } from 'lucide-react';
+import { Heart, Sparkles, ArrowRight, Download, Play, Pause } from 'lucide-react';
 import { gsap, CSSRulePlugin } from "gsap/all";
 import config from './config';
 import '../index.css';
 
 gsap.registerPlugin(CSSRulePlugin);
 
+// Typewriter effect hook
+const useTypewriter = (text, speed = 100) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    if (!text) {
+      setDisplayedText('');
+      setIsComplete(false);
+      return;
+    }
+
+    setDisplayedText('');
+    setIsComplete(false);
+    let currentIndex = 0;
+
+    const typeInterval = setInterval(() => {
+      if (currentIndex < text.length) {
+        setDisplayedText(text.slice(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        setIsComplete(true);
+        clearInterval(typeInterval);
+      }
+    }, speed);
+
+    return () => clearInterval(typeInterval);
+  }, [text, speed]);
+
+  return { displayedText, isComplete };
+};
+
+// Story 1 Component
+const Story1Component = ({ onNext }) => {
+  const story1Title = useTypewriter(config.proposalStory1Title || "Our LDR Journey", 50);
+  const story1Content = useTypewriter(config.proposalStory1Content || "Miles apart, but hearts connected. Every message, every call, every moment we share bridges the distance between us. Our love knows no boundaries.", 60);
+  const images = config.proposalStory1Images || [];
+  
+  return (
+    <motion.div
+      key="story1"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="max-w-6xl w-full px-4"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        {/* Left Side - Text */}
+        <div className="text-left">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6 min-h-[3rem]">
+            {story1Title.displayedText}
+            {!story1Title.isComplete && <span className="animate-pulse">|</span>}
+          </h2>
+          <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-8 min-h-[8rem]">
+            {story1Content.displayedText}
+            {!story1Content.isComplete && <span className="animate-pulse">|</span>}
+          </p>
+          {story1Content.isComplete && (
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={onNext}
+              className="px-6 py-3 flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {config.nextButtonText || "Next"} <ArrowRight className="w-5 h-5" />
+            </motion.button>
+          )}
+        </div>
+        
+        {/* Right Side - Images */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {images.slice(0, 3).map((img, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 + index * 0.2 }}
+              className="aspect-square rounded-lg overflow-hidden"
+            >
+              <img
+                src={img}
+                alt={`LDR Journey ${index + 1}`}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const basePath = img.replace(/\.(jfif|jpg|jpeg|png)$/, '');
+                  if (img.includes('.jfif')) {
+                    e.target.src = `${basePath}.jpg`;
+                  }
+                }}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// Story 2 Component
+const Story2Component = ({ onNext }) => {
+  const story2Title = useTypewriter(config.proposalStory2Title || "Growing Together", 100);
+  const kiligTitle = useTypewriter(config.proposalStory2KiligTitle || "Kilig Moments", 100);
+  const kiligContent = useTypewriter(config.proposalStory2KiligContent || "Through every challenge and every joy, we've grown stronger. Your presence in my life has been the greatest gift, and I'm grateful for every day we get to share.", 80);
+  const tampuhanTitle = useTypewriter(config.proposalStory2TampuhanTitle || "Tampuhan", 100);
+  const tampuhanContent = useTypewriter(config.proposalStory2TampuhanContent || "Even in our disagreements, we learn and grow. Every misunderstanding becomes a chance to understand each other better, to love deeper, and to strengthen our bond.", 80);
+  
+  return (
+    <motion.div
+      key="story2"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="max-w-5xl w-full px-4"
+    >
+      <div className="text-center mb-8">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 min-h-[3rem]">
+          {story2Title.displayedText}
+          {!story2Title.isComplete && <span className="animate-pulse">|</span>}
+        </h2>
+      </div>
+      
+      <div className="space-y-12">
+        {/* Kilig Moments Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 sm:p-8"
+        >
+          <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-pink-300 min-h-[2rem]">
+            {kiligTitle.displayedText}
+            {!kiligTitle.isComplete && <span className="animate-pulse">|</span>}
+          </h3>
+          <p className="text-lg sm:text-xl text-white/90 leading-relaxed min-h-[6rem]">
+            {kiligContent.displayedText}
+            {!kiligContent.isComplete && <span className="animate-pulse">|</span>}
+          </p>
+        </motion.div>
+        
+        {/* Tampuhan Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 sm:p-8"
+        >
+          <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-purple-300 min-h-[2rem]">
+            {tampuhanTitle.displayedText}
+            {!tampuhanTitle.isComplete && <span className="animate-pulse">|</span>}
+          </h3>
+          <p className="text-lg sm:text-xl text-white/90 leading-relaxed min-h-[6rem]">
+            {tampuhanContent.displayedText}
+            {!tampuhanContent.isComplete && <span className="animate-pulse">|</span>}
+          </p>
+        </motion.div>
+      </div>
+      
+      {kiligContent.isComplete && tampuhanContent.isComplete && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex justify-center mt-8"
+        >
+          <motion.button
+            onClick={onNext}
+            className="px-6 py-3 flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {config.nextButtonText || "Next"} <ArrowRight className="w-5 h-5" />
+          </motion.button>
+        </motion.div>
+      )}
+    </motion.div>
+  );
+};
+
+// Question Stage Component
+const QuestionStageComponent = ({ onYes, onNo, noButtonClicks, getNoButtonText, showYesButton, setShowYesButton }) => {
+  useEffect(() => {
+    // After 5 seconds, change "I don't" to "Yes"
+    const timer = setTimeout(() => {
+      setShowYesButton(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [setShowYesButton]);
+
+  return (
+    <motion.div
+      key="question"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.2 }}
+      className="text-center max-w-2xl"
+    >
+      <motion.div
+        className="mb-8"
+        animate={{ 
+          scale: [1, 1.1, 1],
+          rotate: [0, 5, -5, 0]
+        }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <Heart className="w-24 h-24 text-pink-400 fill-pink-400 mx-auto" />
+      </motion.div>
+      <motion.h2
+        className="text-3xl sm:text-5xl font-bold mb-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        {config.proposalQuestion || "Will you be my girlfriend?"}
+      </motion.h2>
+      <motion.div
+        className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
+        <motion.button
+          onClick={onYes}
+          className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full text-xl font-bold hover:from-pink-600 hover:to-purple-600 transition-all shadow-lg"
+          animate={{
+            scale: noButtonClicks > 0 ? 1.2 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+          whileHover={{ scale: noButtonClicks > 0 ? 1.25 : 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          key={showYesButton ? 'yes' : 'idont'}
+        >
+          {showYesButton ? (
+            <>
+              {config.proposalYesButton || "Yes"} 💖
+            </>
+          ) : (
+            "I don't"
+          )}
+        </motion.button>
+        <motion.button
+          onClick={onNo}
+          className="px-8 py-4 bg-white/20 backdrop-blur-sm border border-white/50 rounded-full text-xl font-bold hover:bg-white/30 transition-all"
+          animate={{
+            scale: noButtonClicks > 0 ? 0.7 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+          whileHover={{ scale: noButtonClicks > 0 ? 0.75 : 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {getNoButtonText()}
+        </motion.button>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// Story 3 Component
+const Story3Component = ({ onNext }) => {
+  const story3Title = useTypewriter(config.proposalStory3Title || "The First 'I Love You'", 100);
+  const story3Content = useTypewriter(config.proposalStory3Content || "That moment when we first said 'I love you' changed everything. It wasn't just words—it was a promise, a commitment, the beginning of forever.", 80);
+  const image = config.proposalStory3Image || "/assets/beautiful4.jfif";
+  
+  return (
+    <motion.div
+      key="story3"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="max-w-3xl w-full px-4"
+    >
+      {/* Image on Top */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8 rounded-lg overflow-hidden"
+      >
+        <img
+          src={image}
+          alt="I Love You"
+          className="w-full h-auto max-h-[400px] object-cover"
+          onError={(e) => {
+            const basePath = image.replace(/\.(jfif|jpg|jpeg|png)$/, '');
+            if (image.includes('.jfif')) {
+              e.target.src = `${basePath}.jpg`;
+            }
+          }}
+        />
+      </motion.div>
+      
+      {/* Text Below */}
+      <div className="text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-6 min-h-[3rem]">
+          {story3Title.displayedText}
+          {!story3Title.isComplete && <span className="animate-pulse">|</span>}
+        </h2>
+        <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-8 min-h-[8rem]">
+          {story3Content.displayedText}
+          {!story3Content.isComplete && <span className="animate-pulse">|</span>}
+        </p>
+        {story3Content.isComplete && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={onNext}
+            className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {config.nextButtonText || "Next"} <ArrowRight className="w-5 h-5" />
+          </motion.button>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
 function Proposal() {
-  const [stage, setStage] = useState('loading'); // loading, welcome, story1, story2, story3, recap, promises, plans, question, official
+  const [stage, setStage] = useState('loading'); // loading, ringVerification, welcome, story1, story2, story3, recap, promises, plans, question, official
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [noButtonClicks, setNoButtonClicks] = useState(0);
   const [openEnvelopes, setOpenEnvelopes] = useState({ promises: {}, plans: {} });
+  const [ringImage, setRingImage] = useState(null);
+  const [isScanning, setIsScanning] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const fileInputRef = useRef(null);
+  const audioRef = useRef(null);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [showYesButton, setShowYesButton] = useState(false);
 
   // Loading sequence
   useEffect(() => {
@@ -20,7 +344,7 @@ function Proposal() {
         setLoadingProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            setTimeout(() => setStage('welcome'), 500);
+            setTimeout(() => setStage('ringVerification'), 500);
             return 100;
           }
           return prev + 2;
@@ -29,6 +353,77 @@ function Proposal() {
       return () => clearInterval(interval);
     }
   }, [stage]);
+
+  // Auto-play music on welcome stage (for mobile)
+  useEffect(() => {
+    if (stage === 'welcome' && config.proposalWelcomeMusic && audioRef.current) {
+      // Small delay to ensure audio element is mounted
+      const timer = setTimeout(async () => {
+        if (audioRef.current && audioRef.current.paused) {
+          try {
+            // Set audio properties before playing
+            audioRef.current.loop = true;
+            audioRef.current.volume = 0.5;
+            
+            // Try to play
+            await audioRef.current.play();
+            setIsMusicPlaying(true);
+          } catch (err) {
+            // Auto-play blocked - user can click play button
+            console.log('Auto-play prevented, user can click play button:', err);
+          }
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [stage]);
+
+  // Reset showYesButton when entering question stage
+  useEffect(() => {
+    if (stage === 'question') {
+      setShowYesButton(false);
+    }
+  }, [stage, setShowYesButton]);
+
+  const toggleMusic = async (e) => {
+    if (e) e.preventDefault();
+    
+    if (!audioRef.current) {
+      console.log('Audio ref not available');
+      return;
+    }
+    
+    try {
+      if (isMusicPlaying) {
+        audioRef.current.pause();
+        setIsMusicPlaying(false);
+      } else {
+        // Ensure audio is set up
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
+        
+        // Play the audio
+        await audioRef.current.play();
+        setIsMusicPlaying(true);
+      }
+    } catch (err) {
+      console.error('Audio play failed:', err);
+      // Try loading and playing again
+      try {
+        if (audioRef.current.readyState < 2) {
+          audioRef.current.load();
+          await new Promise(resolve => setTimeout(resolve, 200));
+        }
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
+        await audioRef.current.play();
+        setIsMusicPlaying(true);
+      } catch (retryErr) {
+        console.error('Audio retry failed:', retryErr);
+        setIsMusicPlaying(false);
+      }
+    }
+  };
 
   // Auto-advance welcome to story1
   useEffect(() => {
@@ -112,149 +507,132 @@ function Proposal() {
     }));
   };
 
-  const EnvelopeCard = ({ title, message, index, type }) => {
-    const envelopeRef = useRef(null);
-    const letterRef = useRef(null);
-    const flapRef = useRef(null);
+  const EnvelopeCard = ({
+    title,
+    message,
+    index,
+    type,
+  }) => {
     const isOpen = openEnvelopes[type]?.[index] || false;
 
-    useEffect(() => {
-      if (!envelopeRef.current || !letterRef.current || !flapRef.current) return;
-
-      if (isOpen) {
-        gsap.to(flapRef.current, {
-          duration: 0.5,
-          rotateX: 180,
-          zIndex: 10,
-        });
-        gsap.to(letterRef.current, {
-          scale: 1.1,
-          translateY: -150,
-          duration: 0.9,
-          ease: "back.inOut(1.5)",
-        });
-        gsap.set(letterRef.current, { zIndex: 40 });
-        gsap.to(letterRef.current, {
-          duration: 0.7,
-          ease: "back.out(0.4)",
-          translateY: -5,
-          translateZ: 250,
-        });
-      } else {
-        gsap.to(flapRef.current, {
-          duration: 0.5,
-          rotateX: 0,
-          zIndex: 30,
-        });
-        gsap.to(letterRef.current, {
-          scale: 1,
-          translateY: 0,
-          translateZ: 0,
-          duration: 0.7,
-          ease: "back.inOut(1.5)",
-        });
-        gsap.set(letterRef.current, { zIndex: 15 });
-      }
-    }, [isOpen]);
-
-    const envelopeWidth = 320;
-    const envelopeHeight = 200;
-
     return (
-      <div className="w-full flex justify-center overflow-visible" style={{ minHeight: isOpen ? '500px' : '350px', padding: '20px' }}>
-        <div className="letter-container" style={{ width: `${envelopeWidth}px`, height: `${envelopeHeight}px`, position: 'relative' }}>
-          <div className="content" style={{ position: 'relative', width: `${envelopeWidth}px`, height: `${envelopeHeight}px` }}>
-            <div 
-              className="envelope cursor-pointer relative"
-              ref={envelopeRef}
-              onClick={() => toggleEnvelope(type, index)}
-              style={{ 
-                background: 'linear-gradient(#cccbd7 0.5px, var(--base-light) 0.5px)',
-                width: `${envelopeWidth}px`,
-                height: `${envelopeHeight}px`,
-                position: 'absolute',
-                top: '10px',
-                left: '10px'
-              }}
+      <div
+        className="w-full flex justify-center items-center py-12"
+        style={{ minHeight: isOpen ? "480px" : "320px", transition: "min-height 0.5s ease" }}
+      >
+        <div className="letter-container">
+          <motion.div className="envelope-wrapper" onClick={() => !isOpen && toggleEnvelope(type, index)}>
+            {/* Top Flap */}
+            <motion.div
+              className="absolute top-0 left-0 w-full h-0 border-t-[115px] border-t-[#7873A7] border-l-[150px] border-l-transparent border-r-[150px] border-r-transparent origin-top z-40 pointer-events-none drop-shadow-md"
+              initial={false}
+              animate={isOpen ? { rotateX: 180, zIndex: 10 } : { rotateX: 0, zIndex: 40 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            />
+
+            {/* Envelope Back */}
+            <div className="envelope-back" />
+
+            {/* The Letter */}
+            <motion.div
+              className="letter-content"
+              initial={false}
+              animate={isOpen ? { y: -160, zIndex: 50, scale: 1.05 } : { y: 0, zIndex: 20, scale: 1 }}
+              transition={{ type: "spring", stiffness: 100, damping: 15 }}
             >
-              <div 
-                ref={flapRef}
-                className="absolute top-0 left-0 z-30"
-                style={{
-                  width: `${envelopeWidth}px`,
-                  borderTop: `${envelopeHeight * 0.65}px solid #7873A7`,
-                  borderLeft: `${envelopeWidth / 2}px solid transparent`,
-                  borderRight: `${envelopeWidth / 2}px solid transparent`,
-                  boxSizing: 'border-box',
-                  transformOrigin: 'top',
-                }}
-              ></div>
-            </div>
-            <div 
-              className="letter" 
-              ref={letterRef} 
-              style={{ 
-                position: 'absolute', 
-                top: '10px', 
-                left: '10px',
-                width: `${envelopeWidth}px`,
-                height: `${envelopeHeight}px`,
-              }}
-            >
-              <div 
-                className="body" 
-                style={{
-                  width: `${envelopeWidth - 40}px`,
-                  height: `${envelopeHeight - 40}px`,
-                  padding: '16px',
-                  overflowY: 'auto',
-                  overflowX: 'hidden',
-                }}
-              >
-                <span 
-                  className="close cursor-pointer" 
+              <div className="letter-header">
+                <span className="font-bold text-sm uppercase tracking-wider">{title}</span>
+                <button
                   onClick={(e) => {
-                    e.stopPropagation();
-                    toggleEnvelope(type, index);
+                    e.stopPropagation()
+                    toggleEnvelope(type, index)
                   }}
-                  style={{
-                    fontSize: '24px',
-                    fontWeight: 'bold',
-                    lineHeight: '1',
-                  }}
+                  className="close-letter hover:text-red-500 transition-colors"
                 >
                   ×
-                </span>
-                <div className="message" style={{ marginTop: '8px' }}>
-                  <div className="font-bold mb-3 text-base" style={{ fontSize: '16px', color: 'var(--base)' }}>{title}</div>
-                  <div 
-                    className="text-sm leading-relaxed" 
-                    style={{ 
-                      fontSize: '14px', 
-                      color: 'var(--base)',
-                      wordWrap: 'break-word',
-                      whiteSpace: 'normal',
-                      lineHeight: '1.6',
-                    }}
-                  >
-                    {message}
-                  </div>
-                </div>
+                </button>
               </div>
+              <div className="letter-body custom-scrollbar">{message}</div>
+            </motion.div>
+
+            {/* Envelope Front (Static Triangles) */}
+            <div className="envelope-front">
+              <div className="envelope-left" />
+              <div className="envelope-right" />
+              <div className="envelope-bottom" />
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const getNoButtonText = () => {
     const texts = config.proposalNoButtonTexts || ["No", "Are you sure?", "Really?", "Please?", "Last chance!"];
     return texts[Math.min(noButtonClicks, texts.length - 1)];
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setRingImage(reader.result);
+        // Start scanning process
+        setIsScanning(true);
+        setTimeout(() => {
+          setIsScanning(false);
+          setIsVerified(true);
+          // After showing verified message, proceed to welcome
+          setTimeout(() => {
+            setStage('welcome');
+          }, 2000);
+        }, 2000); // Simulate 2 second scan
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleTakePhoto = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <div className="min-h-screen bg-black/20 flex flex-col items-center justify-center text-white px-4 relative overflow-hidden">
+      {/* Fixed Music Play Button - Always visible */}
+      {config.proposalWelcomeMusic && (
+        <>
+          <audio
+            ref={audioRef}
+            src={config.proposalWelcomeMusic}
+            loop
+            preload="auto"
+            playsInline
+            onPlay={() => setIsMusicPlaying(true)}
+            onPause={() => setIsMusicPlaying(false)}
+            onError={(e) => {
+              console.error('Audio loading error:', e);
+              setIsMusicPlaying(false);
+            }}
+          />
+          <motion.button
+            onClick={toggleMusic}
+            className="fixed top-4 right-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/50 flex items-center justify-center hover:bg-white/30 transition-all z-50 shadow-lg"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            aria-label={isMusicPlaying ? "Pause music" : "Play music"}
+          >
+            {isMusicPlaying ? (
+              <Pause className="w-6 h-6 text-white" />
+            ) : (
+              <Play className="w-6 h-6 text-white ml-0.5" />
+            )}
+          </motion.button>
+        </>
+      )}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -319,6 +697,127 @@ function Proposal() {
           </motion.div>
         )}
 
+        {/* Ring Verification Stage */}
+        {stage === 'ringVerification' && (
+          <motion.div
+            key="ringVerification"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="text-center max-w-2xl w-full px-4"
+          >
+            <motion.h1
+              className="text-3xl sm:text-4xl font-bold mb-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              {config.ringVerificationTitle || "Before we proceed"}
+            </motion.h1>
+
+            {!ringImage && !isScanning && !isVerified && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <motion.p
+                  className="text-lg sm:text-xl text-white/90 mb-8"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  {config.ringVerificationQuestion || "Did you receive the promise ring I've gifted?"}
+                </motion.p>
+                <motion.p
+                  className="text-base sm:text-lg text-white/70 mb-8"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  {config.ringVerificationInstruction || "Please take a picture of your finger wearing the ring and upload it as proof."}
+                </motion.p>
+
+                <motion.button
+                  onClick={handleTakePhoto}
+                  className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full text-lg font-bold hover:from-pink-600 hover:to-purple-600 transition-all shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  📸 Take Photo
+                </motion.button>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+              </motion.div>
+            )}
+
+            {ringImage && isScanning && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center"
+              >
+                <div className="mb-6 rounded-lg overflow-hidden max-w-md">
+                  <img
+                    src={ringImage}
+                    alt="Ring verification"
+                    className="w-full h-auto"
+                  />
+                </div>
+                <motion.div
+                  className="flex flex-col items-center"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <motion.div
+                    className="w-16 h-16 border-4 border-pink-400 border-t-transparent rounded-full mb-4"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  />
+                  <p className="text-lg text-white/90">
+                    {config.ringVerificationScanning || "Scanning image..."}
+                  </p>
+                </motion.div>
+              </motion.div>
+            )}
+
+            {isVerified && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                  className="mb-6"
+                >
+                  <Heart className="w-20 h-20 text-pink-400 fill-pink-400" />
+                </motion.div>
+                <motion.p
+                  className="text-xl sm:text-2xl text-white/90 font-semibold"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {config.ringVerificationReceived || "Ring verified! Thank you for the proof, my love. 💍✨"}
+                </motion.p>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+
         {/* Welcome Stage */}
         {stage === 'welcome' && (
           <motion.div
@@ -326,7 +825,7 @@ function Proposal() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="text-center max-w-2xl"
+            className="text-center max-w-2xl relative"
           >
             <motion.div
               initial={{ scale: 0 }}
@@ -354,104 +853,14 @@ function Proposal() {
           </motion.div>
         )}
 
-        {/* Story Part 1 - LDR Connection */}
-        {stage === 'story1' && (
-          <motion.div
-            key="story1"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            className="text-center max-w-2xl"
-          >
-            <motion.div
-              className="text-5xl mb-6"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              🌙
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              {config.proposalStory1Title || "Our LDR Journey"}
-            </h2>
-            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-8">
-              {config.proposalStory1Content || "Miles apart, but hearts connected. Every message, every call, every moment we share bridges the distance between us. Our love knows no boundaries."}
-            </p>
-            <motion.button
-              onClick={handleNext}
-              className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {config.nextButtonText || "Next"} <ArrowRight className="w-5 h-5" />
-            </motion.button>
-          </motion.div>
-        )}
+        {/* Story Part 1 - LDR Journey (Left: Text, Right: Images) */}
+        {stage === 'story1' && <Story1Component onNext={handleNext} />}
 
-        {/* Story Part 2 - Growing Together */}
-        {stage === 'story2' && (
-          <motion.div
-            key="story2"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            className="text-center max-w-2xl"
-          >
-            <motion.div
-              className="text-5xl mb-6"
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              💫
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              {config.proposalStory2Title || "Growing Together"}
-            </h2>
-            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-8">
-              {config.proposalStory2Content || "Through every challenge and every joy, we've grown stronger. Your presence in my life has been the greatest gift, and I'm grateful for every day we get to share."}
-            </p>
-            <motion.button
-              onClick={handleNext}
-              className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {config.nextButtonText || "Next"} <ArrowRight className="w-5 h-5" />
-            </motion.button>
-          </motion.div>
-        )}
+        {/* Story Part 2 - Growing Together (Two sections: Kilig Moments & Tampuhan) */}
+        {stage === 'story2' && <Story2Component onNext={handleNext} />}
 
-        {/* Story Part 3 - I Love You Milestone */}
-        {stage === 'story3' && (
-          <motion.div
-            key="story3"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            className="text-center max-w-2xl"
-          >
-            <motion.div
-              className="text-5xl mb-6"
-              animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              💕
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              {config.proposalStory3Title || "The First 'I Love You'"}
-            </h2>
-            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-8">
-              {config.proposalStory3Content || "That moment when we first said 'I love you' changed everything. It wasn't just words—it was a promise, a commitment, the beginning of forever."}
-            </p>
-            <motion.button
-              onClick={handleNext}
-              className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {config.nextButtonText || "Next"} <ArrowRight className="w-5 h-5" />
-            </motion.button>
-          </motion.div>
-        )}
+        {/* Story Part 3 - I Love You (Image top, Text bottom) */}
+        {stage === 'story3' && <Story3Component onNext={handleNext} />}
 
         {/* 2025 Recap Section */}
         {stage === 'recap' && (
@@ -497,12 +906,12 @@ function Proposal() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="text-center w-full px-4 py-8"
+            className="text-center w-full px-2 sm:px-4 py-4 sm:py-8"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 px-2">
               {config.proposalPromisesTitle || "My Promises to You"}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 mb-8 justify-items-center max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 justify-items-center max-w-7xl mx-auto">
               {(config.proposalPromises || []).slice(0, 6).map((promise, index) => (
                 <EnvelopeCard
                   key={index}
@@ -515,7 +924,7 @@ function Proposal() {
             </div>
             <motion.button
               onClick={handleNext}
-              className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
+              className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all text-sm sm:text-base"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -531,12 +940,12 @@ function Proposal() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="text-center w-full px-4 py-8"
+            className="text-center w-full px-2 sm:px-4 py-4 sm:py-8"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 px-2">
               {config.proposalPlans2026Title || "Our Plans for 2026"}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 mb-8 justify-items-center max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 justify-items-center max-w-7xl mx-auto">
               {(config.proposalPlans2026 || []).slice(0, 6).map((plan, index) => (
                 <EnvelopeCard
                   key={index}
@@ -549,7 +958,7 @@ function Proposal() {
             </div>
             <motion.button
               onClick={handleNext}
-              className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all"
+              className="px-6 py-3 flex items-center gap-2 mx-auto bg-white/20 backdrop-blur-sm border border-white/50 rounded-lg hover:bg-white/30 transition-all text-sm sm:text-base"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -559,65 +968,14 @@ function Proposal() {
         )}
 
         {/* Question Stage */}
-        {stage === 'question' && (
-          <motion.div
-            key="question"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.2 }}
-            className="text-center max-w-2xl"
-          >
-            <motion.div
-              className="mb-8"
-              animate={{ 
-                scale: [1, 1.1, 1],
-                rotate: [0, 5, -5, 0]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <Heart className="w-24 h-24 text-pink-400 fill-pink-400 mx-auto" />
-            </motion.div>
-            <motion.h2
-              className="text-3xl sm:text-5xl font-bold mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              {config.proposalQuestion || "Will you be my girlfriend?"}
-            </motion.h2>
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <motion.button
-                onClick={handleYes}
-                className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full text-xl font-bold hover:from-pink-600 hover:to-purple-600 transition-all shadow-lg"
-                animate={{
-                  scale: noButtonClicks > 0 ? 1.2 : 1,
-                }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ scale: noButtonClicks > 0 ? 1.25 : 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {config.proposalYesButton || "Yes"} 💖
-              </motion.button>
-              <motion.button
-                onClick={handleNo}
-                className="px-8 py-4 bg-white/20 backdrop-blur-sm border border-white/50 rounded-full text-xl font-bold hover:bg-white/30 transition-all"
-                animate={{
-                  scale: noButtonClicks > 0 ? 0.7 : 1,
-                }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ scale: noButtonClicks > 0 ? 0.75 : 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {getNoButtonText()}
-              </motion.button>
-            </motion.div>
-          </motion.div>
-        )}
+        {stage === 'question' && <QuestionStageComponent 
+          onYes={handleYes} 
+          onNo={handleNo} 
+          noButtonClicks={noButtonClicks}
+          getNoButtonText={getNoButtonText}
+          showYesButton={showYesButton}
+          setShowYesButton={setShowYesButton}
+        />}
 
         {/* Official Stage */}
         {stage === 'official' && (

@@ -138,54 +138,84 @@ const config = {
   // 💌 Love Letter Page
   loveLetterMessage: "Hi my lovey! Before ka mag next page, gusto ko lang sabihin sa'yo na always akong nagpapasalamat na nakilala kita <3 Mahal na mahal po kita ng sobra sobra. Love you so much my lovey <3",
   // 💍 Proposal Page (Triggered by searching "143")
-  proposalWelcome: "Welcome, my love", // Welcome title
+  // Ring Verification Section
+  ringVerificationTitle: "Before we proceed", // Title for ring verification section
+  ringVerificationQuestion: "Did you receive the promise ring I've gifted?", // Question about the ring
+  ringVerificationInstruction: "Please take a picture of your finger wearing the ring and upload it as proof.", // Instruction for image upload
+  ringVerificationScanning: "Scanning image...", // Message while scanning
+  ringVerificationReceived: "Ring verified! Thank you lovey! <3", // Message after verification
+  proposalWelcome: "Welcome, lovey!", // Welcome title
   proposalWelcomeMessage: "You've found something special...", // Welcome message
-  proposalStory1Title: "Our LDR Journey", // First story part title
-  proposalStory1Content: "Miles apart, but hearts connected. Every message, every call, every moment we share bridges the distance between us. Our love knows no boundaries.", // First story part content
+  proposalWelcomeMusic: "/music1.mp3", // Music file to auto-play on welcome (leave empty to disable)
+  
+  // Story 1 - LDR Journey (Left: Text, Right: Images)
+  proposalStory1Title: "To my most beautiful love of my life <3", // First story part title
+  proposalStory1Content: "Hi my lovey! 2026 is almost here na and I'm so happy na dumating ka sa buhay ko, ikaw ang nagpasaya ng 2025 ko and I'm so grateful na nakilala kita sa PopUp love. Sayang lang kung na-access ko pa yung app na 'yun edi sana naglagay ako ng mga memories natin HAHAHAHA pero it's okay padin kasi who would have thought na yung dating strangers is aabot sa gan'to? Tapos nung nag shift tayo sa messenger, yung akala mo na baka maging awkward or magbago yung connection natin, iba pala yung nangari. Mas naging panatag at lumakas yung connection natin love hanggang sa nag iloveyouhan tayo sa isa't isa yieee HAHAHAH hinding hidni ko makakalimutan 'yun. Hanggang sa na celebrate ko yung christmas with you, and soon pati yung new year love! Ang daming nangyari love in just 3 months na magkakilala tayo and mas madami pa tayong memories na gagawin next year! Literal na hindi hadlang sa'tin yung distansya, kapag mahal mo yung isang tao, hindi mag-mamatter kung gaano tayo kalayo sa isa't isa. ", // First story part content
+  proposalStory1Images: [
+    "/assets/beautiful1.jfif",
+    "/assets/beautiful2.jfif",
+    "/assets/beautiful3.jfif"
+  ], // Images for LDR Journey (max 3)
+  
+  // Story 2 - Growing Together (Two sections: Kilig Moments & Tampuhan)
   proposalStory2Title: "Growing Together", // Second story part title
-  proposalStory2Content: "Through every challenge and every joy, we've grown stronger. Your presence in my life has been the greatest gift, and I'm grateful for every day we get to share.", // Second story part content
+  proposalStory2KiligTitle: "Kilig Moments", // Title for kilig moments section
+  proposalStory2KiligContent: "Through every challenge and every joy, we've grown stronger. Your presence in my life has been the greatest gift love, and I'm grateful for every day we get to share. Pipiliin kita araw araw love, mahal na mahal po kita!", // Content for kilig moments
+  proposalStory2TampuhanTitle: "Tampuhan", // Title for tampuhan section
+  proposalStory2TampuhanContent: "Even in our disagreements, we learn and grow. Kahit minsan masyadong matigas ulo ko, mas pinipili mong mag-stay. Every misunderstanding becomes a chance to understand each other better, to love deeper, and to strengthen our bond.", // Content for tampuhan
+  
+  // Story 3 - I Love You (Image top, Text bottom)
   proposalStory3Title: "The First 'I Love You'", // Third story part title
-  proposalStory3Content: "That moment when we first said 'I love you' changed everything. It wasn't just words—it was a promise, a commitment, the beginning of forever.", // Third story part content
+  proposalStory3Content: "Kagaya ng sinabi ko kanina, love kung alam mo lang hinding hindi ko 'to papalagpasin! HAHAHHA feel ko deserve 'to ng long sweet message pero I think hindi na 'no? Alam mo naman na kahit paulit ulit yung iloveyou natin sa isa't isa, sobra at sobrang nakakakilig padin. Lovey napaka unexpected na that time, October 21, is nag iloveyouhan tayo HAAHHAHAHAH nakakakilig", // Third story part content
+  proposalStory3Image: "/assets/MessageImage3.png", // Image for I Love You story
   nextButtonText: "Next", // Text for the Next button in story parts
   
   // 📅 2025 Recap Section
   proposalRecap2025Title: "Our 2025 Journey", // Title for the 2025 recap section
   proposalRecap2025Items: [
-    { title: "January 2025", description: "We started talking and getting to know each other better. Every conversation felt special." },
-    { title: "February 2025", description: "Our bond grew stronger. We shared more about ourselves and our dreams." },
-    { title: "March 2025", description: "We celebrated small moments together, even from a distance." },
+    { title: "September 2025", description: "We started talking and getting to know each other better. Eto din yung month na sobra akong nahook sa'yo nun, as in gustong gusto kita makilala." },
+    { title: "October 2025", description: "Our bond grew stronger. Lalo na nung nag messenger tayo, andaming nangyari and eto din yung month na sobrang nakakakilig." },
+    { title: "November 2025", description: "Eto yung month na ups and downs, may mga kilig and tampuhan, pero siyempre mas nangingibabaw padin yung kilig!" },
+    { title: "December 2025", description: "Feel ko eto yung month na makakatalo sa October? HAHAHAH!" },
     // Add more items as needed
   ],
   
   // 💌 Promises Section
   proposalPromisesTitle: "My Promises to You", // Title for the promises section
   proposalPromises: [
-    { title: "Promise 1", message: "I promise to always be there for you, no matter the distance." },
-    { title: "Promise 2", message: "I promise to support your dreams and be your biggest cheerleader." },
+    { title: "Promise 1", message: "I promise to always be there for you, no matter the distance, tampuhan, circumstances. I will forver choose you." },
+    { title: "Promise 2", message: "I promise to support your dreams and be your biggest fanboy." },
     { title: "Promise 3", message: "I promise to love you unconditionally, through good times and bad." },
+    { title: "Promise 4", message: "I promise to travel with you, to fulfill our dream destination." },
+    { title: "Promise 5", message: "I promise to you that I will be cancer-free, so that I could marry you." },
+
+
     // Add more promises as needed
   ],
   
   // 📋 Plans Section (2026)
   proposalPlans2026Title: "Our Plans for 2026", // Title for the plans section
   proposalPlans2026: [
-    { title: "Plan 1", message: "I plan to visit you and spend quality time together in person." },
-    { title: "Plan 2", message: "I plan to create more beautiful memories and celebrate special occasions together." },
-    { title: "Plan 3", message: "I plan to grow our relationship and build our future together." },
+    { title: "Plan 1", message: "I plan to visit you and spend quality time together in person. Liligawan pa kita." },
+    { title: "Plan 2", message: "I plan to make you the most happiest girl in the world." },
+    { title: "Plan 3", message: "I plan to create more beautiful memories and celebrate special occasions together." },
+    { title: "Plan 4", message: "I plan to grow our relationship and build our future together." },
+    { title: "Plan 5", message: "I plan to teach you all the things I'm good at, even if it's out of your interest." },
+
     // Add more plans as needed
   ],
   
   // ❓ Proposal Question
-  proposalQuestion: "Will you be my girlfriend?", // The proposal question
+  proposalQuestion: "So love... I think this is the right time na, and I've been really thinking about this for so long. Will you be my girlfriend?", // The proposal question
   proposalYesButton: "Yes", // Text for the Yes button
   proposalNoButton: "No", // Initial text for the No button
   proposalNoButtonTexts: ["No", "Are you sure?", "Really?", "Please?", "Last chance!"], // Array of texts for No button when clicked
   
   // 🎉 Official State
   proposalOfficialTitle: "OFFICIALLY OURS! 💕", // Title for the official state
-  proposalOfficialMessage: "We're officially together, and I couldn't be happier!", // Message for the official state
+  proposalOfficialMessage: "Thank you Love! Finally you're officially mine na, love.", // Message for the official state
   proposalPromiseTitle: "My Promise to You", // Title for the promise section
-  proposalPromise: "I promise to love you through every distance, support you in every dream, and cherish every moment we share. You are my forever, and I am yours. Together, we'll create a lifetime of beautiful memories. I love you more than words can express. 💖", // The heartfelt promise
+  proposalPromise: "I promise to love you through every distance, support you in every dream, and cherish every moment we share. You are my forever, and I am yours. Next year, I'll keep pursuing you but this time, it's personal na. Liligawan kita love, hintayin mo lang ako.", // The heartfelt promise
   
   // 📜 Certificate Configuration
   certificateTitle: "OFFICIAL CERTIFICATE", // Certificate main title
